@@ -109,3 +109,42 @@ function splitBySpace2(str) {
 }
 
 console.log(URLify2("Unique new york"));
+
+/**
+ * 3. Counting spaces and overwriting
+ * Time: O(N)
+ * Space: O(1)
+ */
+
+// trueLength: length of string without counting spaces at the end of string
+function URLify3(str, trueLength) {
+  let spaceCount = 0,
+    index;
+
+  for (let i = 0; i < trueLength; i++) {
+    if (str[i] === " ") spaceCount++;
+  }
+
+  /* Multiply spaces by 2 because '%20' has 3 characters 
+    but we count from 0 to 2
+  */
+  index = trueLength + spaceCount * 2;
+
+  if (trueLength < str.length) str[trueLength] = "\0";
+
+  for (let i = trueLength - 1; i >= 0; i--) {
+    if (str[i] === " ") {
+      str[index - 1] = "0";
+      str[index - 2] = "2";
+      str[index - 3] = "%";
+      index = index - 3;
+    } else {
+      str[index] = str[i];
+      index--;
+    }
+  }
+
+  return str;
+}
+
+console.log(URLify3("Unique New York            ", 15));
