@@ -11,21 +11,40 @@
  *
  */
 
+/**
+ * 1. Using hashmap
+ * Time: O(n)
+ * Space: O(n)
+ */
 function isPermutationOfPalindrome(str) {
-  let reversedStr = "";
-  let origWithNoSpaces = "";
+  const eachCharFreq = new Map();
+  let noSpacesStrLength = 0;
 
   for (let char of str) {
+    const charFreq = eachCharFreq.get(char);
+
     if (char !== " ") {
-      reversedStr = char + reversedStr;
-      origWithNoSpaces += char;
+      noSpacesStrLength++;
+      if (charFreq) eachCharFreq.set(char, charFreq + 1);
+      else eachCharFreq.set(char, 1);
     }
   }
 
-  console.log(reversedStr);
-  console.log(origWithNoSpaces);
+  // If even
+  if (noSpacesStrLength % 2 === 0) {
+    for (let [key, count] of eachCharFreq) {
+      if (count % 2 !== 0) return false;
+    }
+  } else {
+    // If odd
+    let isOdd = false;
+    for (let [key, count] of eachCharFreq) {
+      if (count % 2 === 1 && isOdd) return false;
+      else if (count % 2 === 1) isOdd = true;
+    }
+  }
 
-  return origWithNoSpaces === reversedStr;
+  return true;
 }
 
 console.log(isPermutationOfPalindrome("tactcoapapa"));
