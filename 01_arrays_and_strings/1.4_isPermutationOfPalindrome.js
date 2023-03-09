@@ -97,3 +97,48 @@ console.log(isPermutationOfPalindrome2("tactcoapapa"));
  * Time: O(n)
  * Space: O(1)
  */
+
+function isPermutationOfPalindrome3(str) {
+  const bitVector = createBitVector(str);
+  return bitVector === 0 || checkOnlyOneOddChar(bitVector);
+}
+
+function checkOnlyOneOddChar(bitVector) {
+  return (bitVector & (bitVector - 1)) === 0;
+}
+
+function createBitVector(str) {
+  let bitVector = 0;
+  for (let char of str.toLowerCase()) {
+    let charCode = getCharCode(char);
+    bitVector = toggleCharBit(bitVector, charCode);
+  }
+  return bitVector;
+}
+
+function toggleCharBit(bitVector, index) {
+  if (index < 0) return bitVector;
+
+  const mask = 1 << index;
+  if ((bitVector & mask) === 0) {
+    bitVector |= mask;
+  } else {
+    bitVector &= ~mask;
+  }
+
+  return bitVector;
+}
+
+function getCharCode(char) {
+  const charNum = char.charCodeAt();
+  const aCharNum = "a".charCodeAt();
+  const zCharNum = "z".charCodeAt();
+
+  if (charNum >= aCharNum && charNum <= zCharNum) {
+    return charNum - aCharNum;
+  }
+
+  return -1;
+}
+
+console.log(isPermutationOfPalindrome3("tactcoapapa"));
