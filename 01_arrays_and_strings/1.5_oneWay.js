@@ -11,9 +11,9 @@
  * pale, bake -> false
  *
  * Hints:
- * - #023:
- * - #097:
- * - #130:
+ * - #023: Start with the easy thing. Can you check each of the conditions separately?
+ * - #097: What is the relationship between the "insert character" option and the "remove character" option? Do these need to be two separate checks?
+ * - #130: Can you do all three checks in a single pass?
  */
 
 /**
@@ -67,11 +67,34 @@
 // }
 
 function zeroOneEditsAway1(str1, str2) {
-  let i = 0,
-    j = 0;
+  let i1 = 0,
+    i2 = 0;
   let editsCount = 0;
 
   if (str2.length > str1.length + 1) {
     return false;
   } else if (str2.length < str1.length - 1) return false;
+
+  if (str1.length !== str2.length) editsCount++;
+
+  while (str1[i1] || str2[i2]) {
+    console.log(str1[i1], str2[i2]);
+    if (editsCount > 1) return false;
+
+    // if (!str1[i1] || !str2[i2]) editsCount++;
+
+    if (str1[i1] === str2[i2]) {
+      i1++;
+      i2++;
+    } else {
+      if (i1 > i2) i2++;
+      else i1++;
+
+      if (i1 === i2) editsCount++;
+    }
+  }
+
+  return true;
 }
+
+console.log(zeroOneEditsAway1("pale", "pale"));
