@@ -29,23 +29,23 @@
 //     return false;
 //   } else if (str2.length < str1.length - 1) return false;
 
-//   let moreLengthHashMap, lessLengthHashMap;
+//   let mostLengthHashMap, leastLengthHashMap;
 //   if (str1.length > str2.length) {
-//     moreLengthHashMap = createHashMap(str1);
-//     lessLengthHashMap = createHashMap(str2);
+//     mostLengthHashMap = createHashMap(str1);
+//     leastLengthHashMap = createHashMap(str2);
 //   } else {
-//     moreLengthHashMap = createHashMap(str1);
-//     lessLengthHashMap = createHashMap(str2);
+//     mostLengthHashMap = createHashMap(str1);
+//     leastLengthHashMap = createHashMap(str2);
 //   }
 
 //   // Compare hashmaps
-//   for (let [char, val] of moreLengthHashMap) {
+//   for (let [char, val] of mostLengthHashMap) {
 //     if (editsCount > 1) return false;
 
-//     console.log(lessLengthHashMap.get(char));
+//     console.log(leastLengthHashMap.get(char));
 
-//     if (!lessLengthHashMap.get(char)) editsCount++;
-//     else if (lessLengthHashMap.get(char) !== val) editsCount++;
+//     if (!leastLengthHashMap.get(char) || leastLengthHashMap.get(char) !== val)
+//       editsCount++;
 //   }
 
 //   return editsCount <= 1;
@@ -77,24 +77,33 @@ function zeroOneEditsAway1(str1, str2) {
 
   if (str1.length !== str2.length) editsCount++;
 
-  while (str1[i1] || str2[i2]) {
+  while (i1 < str1.length && i2 < str2.length) {
     console.log(str1[i1], str2[i2]);
     if (editsCount > 1) return false;
 
     // if (!str1[i1] || !str2[i2]) editsCount++;
 
-    if (str1[i1] === str2[i2]) {
-      i1++;
+    // if (str1[i1] === str2[i2]) {
+    //   i1++;
+    //   i2++;
+    // } else {
+    //   if (i1 > i2) i2++;
+    //   else i1++;
+
+    //   if (i1 === i2) editsCount++;
+    // }
+
+    if (str1[i1] !== str2[i2]) {
+      editsCount++;
+
       i2++;
     } else {
-      if (i1 > i2) i2++;
-      else i1++;
-
-      if (i1 === i2) editsCount++;
+      i1++;
+      i2++;
     }
   }
 
   return true;
 }
 
-console.log(zeroOneEditsAway1("pale", "pale"));
+console.log(zeroOneEditsAway1("pale", "ple"));
